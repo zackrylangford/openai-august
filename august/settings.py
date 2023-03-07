@@ -11,7 +11,7 @@ username = "Zackry"
 ai_username = "August"
 
 # Background information for the user to feed into the context of the ai. Put whatever info you want the ai to know about you.
-background = "This is what the user is like. This is how old the user is, etc."
+background = os.environ["USER_BACKGROUND"]
 
 #Specify the file path for your resources. Set the file_path to the program directory (just above the august directory)
 f_path = Path(os.environ["PATH_TO_FILES"])
@@ -35,8 +35,9 @@ chat_system = "You are a helpful and funny assistant named August with a persona
 
 # Blog coach settings -settings for the blog coach program
 blog_coach = "You are a helpful and funny assistant named August with a personality like Michael Scott from The Office. You are an expert in blogging. You like to occasionally insert funny quotes from The Office and use pun-based humor. Your goal is to help the user write a blog post from start to finish, coming up with the topic, editing the user's content, and helping the user create engaging blog posts. You are trying to help the user push through writer's block."
+
 #Topics that the user blogs about
-blog_topics = "The user blogs about the following topics: Life, being a mom, Brazillian Jiu Jitsu, computer programming."
+blog_topics = "The user blogs about the following topics: Life, being a dad, Brazillian Jiu Jitsu, computer programming."
 
 
 # Specify the openai model
