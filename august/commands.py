@@ -78,28 +78,28 @@ def blog_coach(prompt):
     response = completion.choices[0].message.content
     print(f"\n{settings.ai_username}: {response.strip()}")
 
-    prompt = input(f"\n{settings.username}: ")
+    user_prompt = input(f"\n{settings.username}: ")
 
     # Recieve the user input and prompt them with a writing prompt
     completion = openai.ChatCompletion.create(
     model=settings.model_engine,
     messages=[
         {"role": "system", "content": f"{settings.blog_coach}"},
-        {"role": "assistant", "content": f"{response} {settings.background} The user wants to blog about {prompt}. Suggest three specific writing prompts to get them started with their blog post."}
+        {"role": "assistant", "content": f"{response} {settings.background} The user wants to blog about {user_prompt}. Suggest three unique and specific writing prompts to get them started with their blog post."}
     ]
     )
     response = completion.choices[0].message.content
     print(f"\n{settings.ai_username}: {response.strip()}")
 
-    prompt = input(f"\n{settings.username}: ")
+    user_prompt = input(f"\n{settings.username}: ")
 
     # Edit the user input for grammar, format it for a blog post, add a title and headings
     completion = openai.ChatCompletion.create(
     model=settings.model_engine,
     messages=[
         {"role": "system", "content": f"{settings.blog_coach}"},
-        {"role": "assistant", "content": f"{response}.{settings.background}. Use the background given to expand on the following input. Edit for grammar, format into a blog post, and come up with a unique and creative title"},
-        {"role": "user", "content": f"{prompt}"}
+        {"role": "assistant", "content": f"{response}{settings.background}"},
+        {"role": "user", "content": f"Edit the following for grammar, expand and format into a blog post from my point of view, come up with a unique and creative title: {user_prompt}"},
     ]
     )
     response = completion.choices[0].message.content
