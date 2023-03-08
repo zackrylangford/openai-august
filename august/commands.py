@@ -32,7 +32,7 @@ def greeting(greeting):
     print(f"\n{settings.ai_username}: {response.strip()}")
 
     #Save response in new variable for use in other conversations
-    gs = f_path / "resources/.greeting.txt"
+    gs = f_path / "resources/.convo.txt"
     greeting_saved(f"{gs}",response.strip())
 
 def open_chat(prompt):
@@ -59,65 +59,88 @@ def open_chat(prompt):
 def blog_coach(prompt):
     """Will coach the user through the writing and publishing of a single blog post"""
     #Saved previous greeting
-    file_path = f_path / "resources/.greeting.txt"
+    file_path = f_path / "resources/.convo.txt"
     with open(file_path, 'r') as file:
         greet_saved = file.read()
 
-    # Initial question to figure out what the user wants to blog about.
-    completion = openai.ChatCompletion.create(
-    model=settings.model_engine,
-    messages=[
-        {"role": "system", "content": f"{settings.blog_coach}"},
-        {"role": "assistant", "content": f"Previous response:{response}.User Background: {settings.background}{settings.blog_topics} Ask the user which topic do they want to write about today and make a suggestion based on the user background and blog topics that the user typically blogs about."},
-    ]
-    )
-    response = completion.choices[0].message.content
-    print(f"\n{settings.ai_username}: {response.strip()}")
+        # Initial question to figure out what the user wants to blog about.
+        completion = openai.ChatCompletion.create(
+        model=settings.model_engine,
+        messages=[
+            {"role": "system", "content": f"{settings.blog_coach}"},
+            {"role": "assistant", "content": f"Previous response:{greet_saved}.User Background: {settings.background}{settings.blog_topics} Ask the user which topic do they want to write about today and make a suggestion based on the user background and blog topics that the user typically blogs about."},
+        ]
+        )
+        response = completion.choices[0].message.content
+        print(f"\n{settings.ai_username}: {response.strip()}")
 
-    user_prompt = input(f"\n{settings.username}: ")
+        user_prompt = input(f"\n{settings.username}: ")
 
-    # Recieve the user input and prompt them with a writing prompt
-    completion = openai.ChatCompletion.create(
-    model=settings.model_engine,
-    messages=[
-        {"role": "system", "content": f"{settings.blog_coach}"},
-        {"role": "assistant", "content": f"{response} {settings.background} The user wants to blog about {user_prompt}. Suggest three unique and specific writing prompts to get them started with their blog post."}
-    ]
-    )
-    response = completion.choices[0].message.content
-    print(f"\n{settings.ai_username}: {response.strip()}")
+    
+        # Recieve the user input and prompt them with a writing prompt
+        completion = openai.ChatCompletion.create(
+        model=settings.model_engine,
+        messages=[
+            {"role": "system", "content": f"{settings.blog_coach}"},
+            {"role": "assistant", "content": f"Previous conversation:{greet_saved}{response} {settings.background} "},
+            {"role": "user", "content": f"Suggest three unique and specific writing prompts to get them started with their blog post about {user_prompt}"},
+            ]
+            )
+        response = completion.choices[0].message.content
+        print(f"\n{settings.ai_username}: {response.strip()}")
 
-    user_prompt = input(f"\n{settings.username}: ")
+        user_prompt = input(f"\n{settings.username}: ")
 
-    # Edit the user input for grammar, format it for a blog post, add a title and headings
-    completion = openai.ChatCompletion.create(
-    model=settings.model_engine,
-    messages=[
+        # Edit the user input for grammar, format it for a blog post, add a title and headings
+        completion = openai.ChatCompletion.create(
+        model=settings.model_engine,
+        messages=[
         {"role": "system", "content": f"{settings.blog_coach}"},
         {"role": "assistant", "content": f"{response}{settings.background}"},
         {"role": "user", "content": f"Edit the following for grammar, expand and format into a blog post from my point of view, come up with a unique and creative title: {user_prompt}"},
-    ]
-    )
-    response = completion.choices[0].message.content
+        ]
+        )
+        response = completion.choices[0].message.content
+    
     blog_coach_saved(f"{settings.blog_post_storage}", response.strip())
     print(f"\n{settings.ai_username}: {response.strip()}\n****\n\nThe above post was saved to a new file on your Desktop!")
 
     #Ask the user for optional Tweets derived from the blog post
     tweet_prompt = input(f"{settings.ai_username}: \n\nWould you like me to come up with some Tweets based on the blog post we just wrote? (y/n)")
     if tweet_prompt == "y":
+        blog_path = f_path / "documents/blogpost.txt"
+        with open(blog_path, 'r') as file:
+            blog_saved = file.read()
+            
             completion = openai.ChatCompletion.create(
             model=settings.model_engine,
             messages=[
                 {"role": "system", "content": f"{settings.blog_coach}"},
-                {"role": "assistant", "content": f"Blog post that we just wrote:{response}.{settings.username}'s background: {settings.background}"},
-                {"role": "user", "content": f"Write 3-5 unique insights, funny sayings, or twitteresque type content from the blog post we just wrote based on {settings.username}'s background for {settings.username}'s Twitter account: {response}"},
+                {"role": "assistant", "content": f"Blog post that we just wrote:{blog_saved}.{settings.username}'s background: {settings.background}"},
+                {"role": "user", "content": f"Write 3-5 unique insights, funny sayings, or twitteresque type content from the blog post we just wrote based on {settings.username}'s background for {settings.username}'s Twitter account: {blog_saved}"},
             ]
             )
             response = completion.choices[0].message.content
-            add_tweets(f"{settings.blog_post_storage}", response.strip())
-            print(f"\n{settings.ai_username}: {response.strip()}\n****\n\nTweets were saved to your blog post file")
+        add_tweets(f"{settings.blog_post_storage}", response.strip())
+        print(f"\n{settings.ai_username}: {response.strip()}\n****\n\nTweets were saved to your blog post file")
 
-
+    linked_in = input(f"{settings.ai_username}: \n\nWould you like me to come up with some ideas for a LinkedIn post based on the blog post we just wrote? (y/n)")
+    if linked_in == "y":
+        blog_path = f_path / "documents/blogpost.txt"
+        with open(blog_path, 'r') as file:
+            blog_saved = file.read()
+            
+            completion = openai.ChatCompletion.create(
+            model=settings.model_engine,
+            messages=[
+                {"role": "system", "content": f"{settings.blog_coach}"},
+                {"role": "assistant", "content": f"Blog post that we just wrote:{blog_saved}.{settings.username}'s background: {settings.background}"},
+                {"role": "user", "content": f"Write 2 unique LinkedIn posts from the following blog post using {settings.username}'s background for {settings.username}'s Twitter account: {blog_saved}"},
+            ]
+            )
+            response = completion.choices[0].message.content
+        add_linked(f"{settings.blog_post_storage}", response.strip())
+        print(f"\n{settings.ai_username}: {response.strip()}\n****\n\nLinkedIn posts were saved to your blog post file")
         
 
 

@@ -28,12 +28,18 @@ def blog_coach_saved(file_name, response):
 	file_in.close()
 
 def add_tweets(file_name, tweets):
-	"""Adds tweets to the bottom of the blog post file"""
+	"""Adds social media posts to the bottom of the blog post file"""
 	file_in = open(file_name, 'a')
-	ai_output = (f"{tweets}")
+	ai_output = (f"\n\nTweet Ideas:\n\n{tweets}")
 	file_in.write(ai_output)
 	file_in.close()
 
+def add_linked(file_name, linked):
+	"""Adds social media posts to the bottom of the blog post file"""
+	file_in = open(file_name, 'a')
+	ai_output = (f"\n\nLinkedIn Post Idea:\n\n{linked}")
+	file_in.write(ai_output)
+	file_in.close()
 
 def greeting_saved(file_name, response):
 	file_in = open(file_name, 'w')
