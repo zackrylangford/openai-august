@@ -27,9 +27,18 @@ def blog_coach_saved(file_name, response):
 	file_in.write(ai_output)
 	file_in.close()
 
+def add_tweets(file_name, tweets):
+	"""Adds tweets to the bottom of the blog post file"""
+	file_in = open(file_name, 'a')
+	ai_output = (f"{tweets}")
+	file_in.write(ai_output)
+	file_in.close()
+
 
 def greeting_saved(file_name, response):
 	file_in = open(file_name, 'w')
 	ai_output = (f"{response}")
 	file_in.write(ai_output)
 	file_in.close()
+
+

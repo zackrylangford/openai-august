@@ -32,7 +32,7 @@ def greeting(greeting):
     print(f"\n{settings.ai_username}: {response.strip()}")
 
     #Save response in new variable for use in other conversations
-    gs = '/home/zack/Desktop/GitHub/Public/openai-august/august/resources/.greeting.txt'
+    gs = f_path / "resources/.greeting.txt"
     greeting_saved(f"{gs}",response.strip())
 
 def open_chat(prompt):
@@ -56,10 +56,6 @@ def open_chat(prompt):
         
 
 
-
-
-
-
 def blog_coach(prompt):
     """Will coach the user through the writing and publishing of a single blog post"""
     #Saved previous greeting
@@ -72,7 +68,7 @@ def blog_coach(prompt):
     model=settings.model_engine,
     messages=[
         {"role": "system", "content": f"{settings.blog_coach}"},
-        {"role": "assistant", "content": f"{greet_saved}{settings.background}{settings.blog_topics} Ask the user which topic do they want to write about today and make a suggestion based on the user background and blog topics that the user typically blogs about."},
+        {"role": "assistant", "content": f"Previous response:{response}.User Background: {settings.background}{settings.blog_topics} Ask the user which topic do they want to write about today and make a suggestion based on the user background and blog topics that the user typically blogs about."},
     ]
     )
     response = completion.choices[0].message.content
@@ -105,6 +101,24 @@ def blog_coach(prompt):
     response = completion.choices[0].message.content
     blog_coach_saved(f"{settings.blog_post_storage}", response.strip())
     print(f"\n{settings.ai_username}: {response.strip()}\n****\n\nThe above post was saved to a new file on your Desktop!")
+
+    #Ask the user for optional Tweets derived from the blog post
+    tweet_prompt = input(f"{settings.ai_username}: \n\nWould you like me to come up with some Tweets based on the blog post we just wrote? (y/n)")
+    if tweet_prompt == "y":
+            completion = openai.ChatCompletion.create(
+            model=settings.model_engine,
+            messages=[
+                {"role": "system", "content": f"{settings.blog_coach}"},
+                {"role": "assistant", "content": f"Blog post that we just wrote:{response}.{settings.username}'s background: {settings.background}"},
+                {"role": "user", "content": f"Write 3-5 unique insights, funny sayings, or twitteresque type content from the blog post we just wrote based on {settings.username}'s background for {settings.username}'s Twitter account: {response}"},
+            ]
+            )
+            response = completion.choices[0].message.content
+            add_tweets(f"{settings.blog_post_storage}", response.strip())
+            print(f"\n{settings.ai_username}: {response.strip()}\n****\n\nTweets were saved to your blog post file")
+
+
+        
 
 
 
