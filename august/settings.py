@@ -21,6 +21,7 @@ f_path = Path(os.environ["PATH_TO_FILES"])
 # Output Storage - set these to custom locations where you would like to store your generated text. 
 chat_log_storage = f_path / 'documents/chat-logs.txt'
 blog_post_storage = f_path / 'documents/blogpost.txt'
+social_storage = f_path / 'documents/socialmedia.txt'
 
 
 # OpenAI settings

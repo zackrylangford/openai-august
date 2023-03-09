@@ -106,7 +106,7 @@ def blog_coach(prompt):
     print(f"\n{settings.ai_username}: {response.strip()}\n****\n\nThe above post was saved to a new file on your Desktop!")
 
     #Ask the user for optional Tweets derived from the blog post
-    tweet_prompt = input(f"{settings.ai_username}: \n\nWould you like me to come up with some Tweets based on the blog post we just wrote? (y/n)")
+    tweet_prompt = input(f"\n\n{settings.ai_username}: Would you like me to come up with some Tweets based on the blog post we just wrote? (y/n)")
     if tweet_prompt == "y":
         blog_path = f_path / "documents/blogpost.txt"
         with open(blog_path, 'r') as file:
@@ -117,14 +117,14 @@ def blog_coach(prompt):
             messages=[
                 {"role": "system", "content": f"{settings.blog_coach}"},
                 {"role": "assistant", "content": f"Blog post that we just wrote:{blog_saved}.{settings.username}'s background: {settings.background}"},
-                {"role": "user", "content": f"Write 3-5 unique insights, funny sayings, or twitteresque type content from the blog post we just wrote based on {settings.username}'s background for {settings.username}'s Twitter account: {blog_saved}"},
+                {"role": "user", "content": f"Write 3-5 unique insights, funny sayings, or twitteresque type content with hashtags and emojies from the blog post we just wrote based on {settings.username}'s background for {settings.username}'s Twitter account: {blog_saved}"},
             ]
             )
             response = completion.choices[0].message.content
-        add_tweets(f"{settings.blog_post_storage}", response.strip())
+        add_tweets(f"{settings.social_storage}", response.strip())
         print(f"\n{settings.ai_username}: {response.strip()}\n****\n\nTweets were saved to your blog post file")
-    else:
-        print("OK, your blog post is complete!")
+    elif tweet_prompt == "n":
+        print("OK, got it, no tweets")
 
     linked_in = input(f"{settings.ai_username}: \n\nWould you like me to come up with some ideas for a LinkedIn post based on the blog post we just wrote? (y/n)")
     if linked_in == "y":
@@ -136,17 +136,18 @@ def blog_coach(prompt):
             model=settings.model_engine,
             messages=[
                 {"role": "system", "content": f"{settings.blog_coach}"},
-                {"role": "assistant", "content": f"Blog post that we just wrote:{blog_saved}.{settings.username}'s background: {settings.background}"},
+                {"role": "assistant", "content": f"{settings.username}'s background: {settings.background}"},
                 {"role": "user", "content": f"Write one unique long form LinkedIn post from the following blog post using {settings.username}'s background for {settings.username}'s Twitter account: {blog_saved}"},
             ]
             )
             response = completion.choices[0].message.content
-        add_linked(f"{settings.blog_post_storage}", response.strip())
-        print(f"\n{settings.ai_username}: {response.strip()}\n****\n\nLinkedIn posts were saved to your blog post file")
-    else:
-        print("OK, your blog post is complete!")
+        add_linked(f"{settings.social_storage}", response.strip())
+        print(f"\n{settings.ai_username}: Linked in Post Idea:\n{response.strip()}\n****\n\nLinkedIn post was saved to your blog post file")
+    elif tweet_prompt == "n":
+        print("OK, got it, no LinkedIn post")
+
         
-        # Generate an image for the blog using keywords and add link to bottom of blog post page
+    # Generate an image for the blog using keywords and add link to bottom of blog post page
     image_add = input(f"{settings.ai_username}: \n\nWould you like me to generate an image with keywords from the blog post we just wrote? (y/n)")
     if image_add == "y":
         blog_path = f_path / "documents/blogpost.txt"
@@ -158,7 +159,7 @@ def blog_coach(prompt):
             messages=[
                 {"role": "system", "content": f"{settings.blog_coach}"},
                 {"role": "assistant", "content": f"Blog post that we just wrote:{blog_saved}.{settings.username}'s background: {settings.background}"},
-                {"role": "user", "content": f"Generate four concrete keywords that are good images for the following blog post: {blog_saved}"},
+                {"role": "user", "content": f"Generate a string of four keywords seperated by commas on one line that are good images for the following blog post: {blog_saved}"},
             ]
             )
             key_words = completion.choices[0].message.content
@@ -176,9 +177,9 @@ def blog_coach(prompt):
             add_url(f"{settings.blog_post_storage}", image_url.strip())
             print(f"\n\n*****\n\n\nImage saved to your blog post document")
             print(f"\nYour blog post is complete! Great work!")
-
-    else:
-        print("OK, your blog post is complete!")
+    elif image_add == "n":
+        print("OK, got it, no image")
+        print(" Ok, your post is complete!")
 
 
 
