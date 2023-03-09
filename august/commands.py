@@ -123,6 +123,8 @@ def blog_coach(prompt):
             response = completion.choices[0].message.content
         add_tweets(f"{settings.blog_post_storage}", response.strip())
         print(f"\n{settings.ai_username}: {response.strip()}\n****\n\nTweets were saved to your blog post file")
+    else:
+        print("OK, your blog post is complete!")
 
     linked_in = input(f"{settings.ai_username}: \n\nWould you like me to come up with some ideas for a LinkedIn post based on the blog post we just wrote? (y/n)")
     if linked_in == "y":
@@ -135,13 +137,48 @@ def blog_coach(prompt):
             messages=[
                 {"role": "system", "content": f"{settings.blog_coach}"},
                 {"role": "assistant", "content": f"Blog post that we just wrote:{blog_saved}.{settings.username}'s background: {settings.background}"},
-                {"role": "user", "content": f"Write 2 unique LinkedIn posts from the following blog post using {settings.username}'s background for {settings.username}'s Twitter account: {blog_saved}"},
+                {"role": "user", "content": f"Write one unique long form LinkedIn post from the following blog post using {settings.username}'s background for {settings.username}'s Twitter account: {blog_saved}"},
             ]
             )
             response = completion.choices[0].message.content
         add_linked(f"{settings.blog_post_storage}", response.strip())
         print(f"\n{settings.ai_username}: {response.strip()}\n****\n\nLinkedIn posts were saved to your blog post file")
+    else:
+        print("OK, your blog post is complete!")
         
+        # Generate an image for the blog using keywords and add link to bottom of blog post page
+    image_add = input(f"{settings.ai_username}: \n\nWould you like me to generate an image with keywords from the blog post we just wrote? (y/n)")
+    if image_add == "y":
+        blog_path = f_path / "documents/blogpost.txt"
+        with open(blog_path, 'r') as file:
+            blog_saved = file.read()
+            
+            completion = openai.ChatCompletion.create(
+            model=settings.model_engine,
+            messages=[
+                {"role": "system", "content": f"{settings.blog_coach}"},
+                {"role": "assistant", "content": f"Blog post that we just wrote:{blog_saved}.{settings.username}'s background: {settings.background}"},
+                {"role": "user", "content": f"Generate four concrete keywords that are good images for the following blog post: {blog_saved}"},
+            ]
+            )
+            key_words = completion.choices[0].message.content
+            
+            add_keywords(f"{settings.blog_post_storage}", key_words.strip())
+    
+            style_type = ['abstract', 'photo','surreal','impressionist','cubism', 'art deco']
+            response = openai.Image.create(
+            prompt=(f"{random.choice(style_type)}, {key_words}"),
+            n=1,
+            size="512x512"
+            ) 
+            image_url = response['data'][0]['url']
+            print(f"Potential image for your blog post: {image_url}")
+            add_url(f"{settings.blog_post_storage}", image_url.strip())
+            print(f"\n\n*****\n\n\nImage saved to your blog post document")
+            print(f"\nYour blog post is complete! Great work!")
+
+    else:
+        print("OK, your blog post is complete!")
 
 
 
