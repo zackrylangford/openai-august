@@ -37,7 +37,7 @@ Before contributing new features or enhancements, please make sure to first disc
 
 ## Code of Conduct
 
-To ensure that August-GPT continues to be a welcoming, safe, and inclusive space for everyone, we have adopted a Code of Conduct. Please refer to the [CODE_OF_CONDUCT.md](https://github.com/zackrylangford/openai-august-CODE_OF_CONDUCT.md) file for more information.
+To ensure that August-GPT continues to be a welcoming, safe, and inclusive space for everyone, we have adopted a Code of Conduct. Please refer to the [CODE_OF_CONDUCT.md](https://github.com/zackrylangford/openai-august/CODE_OF_CONDUCT.md) file for more information.
 
 ## Attribution
 
