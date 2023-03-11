@@ -152,6 +152,7 @@ image.py
 /august/resources/resume/*
 /august/resources/job-posting/*
 /august/resources/markdown/*
+/august/resources/code/*
 
 tech.py
 

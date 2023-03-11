@@ -102,15 +102,15 @@ def blog_coach():
         )
         response = completion.choices[0].message.content
     
-    blog_coach_saved(f"{settings.blog_post_storage}", response.strip())
-    print(f"\n{settings.ai_username}: {response.strip()}\n****\n\nThe above post was saved to a new file on your Desktop!")
+        blog_coach_saved(f"{settings.blog_post_storage}", response.strip())
+        print(f"\n{settings.ai_username}: {response.strip()}\n****\n\nThe above post was saved to a new file on your Desktop!")
 
-    #Ask the user for optional Tweets derived from the blog post
-    tweet_prompt = input(f"\n\n{settings.ai_username}: Would you like me to come up with some Tweets based on the blog post we just wrote? (y/n)")
-    if tweet_prompt == "y":
-        blog_path = f_path / "documents/blogpost.txt"
-        with open(blog_path, 'r') as file:
-            blog_saved = file.read()
+        #Ask the user for optional Tweets derived from the blog post
+        tweet_prompt = input(f"\n\n{settings.ai_username}: Would you like me to come up with some Tweets based on the blog post we just wrote? (y/n)")
+        if tweet_prompt == "y":
+            blog_path = f_path / "documents/blogpost.txt"
+            with open(blog_path, 'r') as file:
+                blog_saved = file.read()
             
             completion = openai.ChatCompletion.create(
             model=settings.model_engine,
@@ -121,65 +121,62 @@ def blog_coach():
             ]
             )
             response = completion.choices[0].message.content
-        add_tweets(f"{settings.social_storage}", response.strip())
-        print(f"\n{settings.ai_username}: {response.strip()}\n****\n\nTweets were saved to your blog post file")
-    elif tweet_prompt == "n":
-        print("OK, got it, no tweets")
+            add_tweets(f"{settings.social_storage}", response.strip())
+            print(f"\n{settings.ai_username}: {response.strip()}\n****\n\nTweets were saved to your blog post file")
 
-    linked_in = input(f"{settings.ai_username}: \n\nWould you like me to come up with some ideas for a LinkedIn post based on the blog post we just wrote? (y/n)")
-    if linked_in == "y":
-        blog_path = f_path / "documents/blogpost.txt"
-        with open(blog_path, 'r') as file:
-            blog_saved = file.read()
+
+            linked_in = input(f"{settings.ai_username}: \n\nWould you like me to come up with some ideas for a LinkedIn post based on the blog post we just wrote? (y/n)")
+            if linked_in == "y":
+                blog_path = f_path / "documents/blogpost.txt"
+                with open(blog_path, 'r') as file:
+                    blog_saved = file.read()
             
-            completion = openai.ChatCompletion.create(
-            model=settings.model_engine,
-            messages=[
-                {"role": "system", "content": f"{settings.blog_coach}"},
-                {"role": "assistant", "content": f"{settings.username}'s background: {settings.background}"},
-                {"role": "user", "content": f"Write one unique long form LinkedIn post from the following blog post using {settings.username}'s background for {settings.username}'s Twitter account: {blog_saved}"},
-            ]
-            )
-            response = completion.choices[0].message.content
-        add_linked(f"{settings.social_storage}", response.strip())
-        print(f"\n{settings.ai_username}: Linked in Post Idea:\n{response.strip()}\n****\n\nLinkedIn post was saved to your blog post file")
-    elif tweet_prompt == "n":
-        print("OK, got it, no LinkedIn post")
+                    completion = openai.ChatCompletion.create(
+                    model=settings.model_engine,
+                    messages=[
+                        {"role": "system", "content": f"{settings.blog_coach}"},
+                        {"role": "assistant", "content": f"{settings.username}'s background: {settings.background}"},
+                        {"role": "user", "content": f"Write one unique long form LinkedIn post from the following blog post using {settings.username}'s background for {settings.username}'s Twitter account: {blog_saved}"},
+                    ]
+                    )
+                    response = completion.choices[0].message.content
+                add_linked(f"{settings.social_storage}", response.strip())
+                print(f"\n{settings.ai_username}: Linked in Post Idea:\n{response.strip()}\n****\n\nLinkedIn post was saved to your blog post file")
+            elif tweet_prompt == "n":
+                print("OK, got it, no LinkedIn post")
 
         
     # Generate an image for the blog using keywords and add link to bottom of blog post page
-    image_add = input(f"{settings.ai_username}: \n\nWould you like me to generate an image with keywords from the blog post we just wrote? (y/n)")
-    if image_add == "y":
-        blog_path = f_path / "documents/blogpost.txt"
-        with open(blog_path, 'r') as file:
-            blog_saved = file.read()
+            image_add = input(f"{settings.ai_username}: \n\nWould you like me to generate an image with keywords from the blog post we just wrote? (y/n)")
+            if image_add == "y":
+                blog_path = f_path / "documents/blogpost.txt"
+                with open(blog_path, 'r') as file:
+                    blog_saved = file.read()
             
-            completion = openai.ChatCompletion.create(
-            model=settings.model_engine,
-            messages=[
-                {"role": "system", "content": f"{settings.blog_coach}"},
-                {"role": "assistant", "content": f"Blog post that we just wrote:{blog_saved}.{settings.username}'s background: {settings.background}"},
-                {"role": "user", "content": f"Generate a string of four keywords seperated by commas on one line that are good images for the following blog post: {blog_saved}"},
-            ]
-            )
-            key_words = completion.choices[0].message.content
+                    completion = openai.ChatCompletion.create(
+                    model=settings.model_engine,
+                    messages=[
+                        {"role": "system", "content": f"{settings.blog_coach}"},
+                        {"role": "assistant", "content": f"Blog post that we just wrote:{blog_saved}.{settings.username}'s background: {settings.background}"},
+                        {"role": "user", "content": f"Generate a string of four keywords seperated by commas on one line that are good images for the following blog post: {blog_saved}"},
+                    ]
+                    )
+                    key_words = completion.choices[0].message.content
             
-            add_keywords(f"{settings.blog_post_storage}", key_words.strip())
+                    add_keywords(f"{settings.blog_post_storage}", key_words.strip())
     
-            style_type = ['abstract', 'photo','surreal','impressionist','cubism', 'art deco']
-            response = openai.Image.create(
-            prompt=(f"{random.choice(style_type)}, {key_words}"),
-            n=1,
-            size="512x512"
-            ) 
-            image_url = response['data'][0]['url']
-            print(f"Potential image for your blog post: {image_url}")
-            add_url(f"{settings.blog_post_storage}", image_url.strip())
-            print(f"\n\n*****\n\n\nImage saved to your blog post document")
-            print(f"\nYour blog post is complete! Great work!")
-    elif image_add == "n":
-        print("OK, got it, no image")
-        print(" Ok, your post is complete!")
+                    style_type = ['abstract', 'photo','surreal','impressionist','cubism', 'art deco']
+                    response = openai.Image.create(
+                    prompt=(f"{random.choice(style_type)}, {key_words}"),
+                    n=1,
+                    size="512x512"
+                    ) 
+                    image_url = response['data'][0]['url']
+                    print(f"Potential image for your blog post: {image_url}")
+                    add_url(f"{settings.blog_post_storage}", image_url.strip())
+                    print(f"\n\n*****\n\n\nImage saved to your blog post document")
+                    print(f"\nYour blog post is complete! Great work!")
+
 
 
 
@@ -390,15 +387,30 @@ def conduct_doc():
 
 
             
+def code_blog():
+    """Take a chunk of code and write a technical blog post explaining what it does""" 
+    # Location of code 
+    code_doc = f_path / "resources/code/code-doc.txt"
+    with open(code_doc, 'r') as file:
+        code_file = file.read()
 
+        completion = openai.ChatCompletion.create(
+        model=settings.model_engine,
+        
+        # August now processes the job posting and resume
+        messages=[
+        {"role": "system", "content": f"You're a technical writing assistant, helping {settings.username} with technical writing about code for a blog."},
+        {"role": "assistant", "content": f"Read Me File: {code_file}"},
+        {"role": "user", "content": f"Take the given code and write a blog post explaining what the code does and break it down into steps to recreate it. Break the blog post up into sections with detailed instructions for the reader in how to recreate the code for other projects. Fix any code that doesn't work or make sense. Insert some funny quips in the explanations."},
+        ]
+        )
+        response = completion.choices[0].message.content
 
-
-
-
-
-
-
-
+    #Verify the document is being rewritten
+    print(f"\n{settings.ai_username}: Code blog has been written!")
+    
+    # Record response in txt file
+    code_blog_saved(f"{settings.code_blog_storage}", response.strip())  
 
 
 

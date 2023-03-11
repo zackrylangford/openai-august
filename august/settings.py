@@ -25,7 +25,7 @@ cover_letter_storage = f_path / 'documents/resume-coach/cover-letter-rewrite.txt
 tech_doc_storage = f_path / 'documents/tech-writing/tech-doc-rewrite.md'
 contrib_doc_storage = f_path / 'documents/tech-writing/contributions-doc.md'
 conduct_doc_storage = f_path / 'documents/tech-writing/code-of-conduct-doc.md'
-
+code_blog_storage = f_path / 'documents/tech-writing/code-blog.txt'
 # OpenAI settings
 # These are the settings that specify the model of openai you are using as well as other settings. 
 # See documentation at https://platform.openai.com/docs
