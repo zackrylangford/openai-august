@@ -1,55 +1,43 @@
-# August-GPT
+# August-GPT: Chat with the AI
 
-This is a simple application that allows the user to prompt the gpt-3.5-turbo model from openai in a chat format. Currently, the application runs in the terminal and records the conversation in at .txt format for later review.
+🤖 August-GPT is an easy-to-use chat application that utilizes OpenAI's GPT-3.5-Turbo model. The chat platform allows you to communicate with the AI through prompts and get responses on a wide range of topics.
 
-August can walk you through the creation of a blog post with prompts and help edit and format a blog post with the command --coach. 
+🔥 Here are some features of August-GPT that you can take advantage of:
 
-There is also a script to have August write a full blog post about a topic that is entered by the user. Simply input --blog and August will walk the user through a blog post creation program and output the blog post into a .txt file in a specified directory in the settings. 
+✨ **Update Settings**: Before starting, ensure to update the settings file to reflect your username and set up a new username for your AI. You can also specify the directory where you want to store chat and blog post output.
 
-- 👆 make sure to update the settings to reflect your username as well as create a new username for your AI. You can also specify the directory that you would like to save chat and blog post output. 
+📑 **Create a Blog Post**: Do you need help creating a blog post? August-GPT can assist you by guiding you through a step-by-step process with prompts. Furthermore, you can edit and format your post to your liking.
 
-- 👋 August is programmed with a couple of commands to use take advantage of the gpt model. See the list of commands here [COMMANDS](COMMANDS.md)
+📝 **Resume and Cover Letter**: August-GPT can assist you in writing your resume and cover letter by rewriting them based on job descriptions. Refer to the instructions in the `COMMANDS.md` file to learn how to do it.
 
-- 🤖 I named the AI "August" so it felt a little more personal. 
+🛠️ **Installation**: Here's how to get started with August-GPT:
 
+1. Clone this repository locally:
+   ```
+   git clone https://github.com/zackrylangford/openai-chatgpt.git
+   ```
 
+2. Create an account with OpenAI API and obtain an API key from their website. Provide your API key in the `settings.py` file. We recommend that you use environment variables to protect your API keys.
 
-# Installation
+    ```
+    settings.py
+    api_key = os.environ["OPENAI_API_KEY"]
+    ```
 
-1. Clone this repository locally
-```
-git clone https://github.com/zackrylangford/openai-chatgpt.git
-```
+3. Install the OpenAI package in your environment. You can isolate your Python packages in a virtual environment to avoid conflicts.
 
-2. Create openai API account and generate API key from [OpenAI] (https://openai.com/api/) 
+    ```
+    pip install openai
+    ```
 
-Insert your API key into the settings.py file. For security best practices, use environment variables in order to protect your API key. For more information on how to set up environment variables with openai, see: [Best Practices for API Keys](https://help.openai.com/en/articles/5112595-best-practices-for-api-key-safety)
+4. Update your username and background information in the `settings.py` file.
 
-settings.py
-```
-api_key = os.environ["OPENAI_API_KEY"]
-```
+5. Navigate to your terminal and run the script to start chatting with the AI! `python3 august.py`
 
-3. Install openai package in your envrionment. You may need to set up a virtual environment in order to isoloate your packages to avoid any conflicts. 
+💡 **Tips**: 
 
-```
-pip install openai
-```
+- To address any issues or get help setting up the application, visit the [OpenAI website](https://openai.com) under the API section.
+- Protect your API keys by using environment variables, which keeps security high.
+- Keep your chat output and blog post output organized by specifying which directory August-GPT should store files in.
 
-4. Make any changes to the AI to play around with length of output, number of responses, etc. in the settings.py file. 
-
-
-5. Run the script in your terminal and have fun!
-```
-python3 august.py
-```
-
-# More Information 
-
-For troubleshooting and help with getting set up or to figure out how to make more changes, see [openai.com](https://openai.com) and go through the documentation under the API section. 
-
-# Contact
-
-Questions or comments? 
-
-[Email Zack Langford](mailto::zack@cloudzack.com)
+💬 **Contact**: Should you have any inquiries or feedback, please do not hesitate to [email Zack Langford](mailto::zack@cloudzack.com).

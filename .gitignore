@@ -145,3 +145,14 @@ user-logs.txt
 clipboard.txt
 blog-post-scratch.txt
 /august/resources/.greeting.txt
+
+image.py
+
+
+/august/resources/resume/*
+/august/resources/job-posting/*
+/august/resources/markdown/*
+
+tech.py
+
+.convo.txt

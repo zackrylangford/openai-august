@@ -56,7 +56,7 @@ def open_chat(prompt):
         
 
 
-def blog_coach(prompt):
+def blog_coach():
     """Will coach the user through the writing and publishing of a single blog post"""
     #Saved previous greeting
     file_path = f_path / "resources/.convo.txt"
@@ -239,7 +239,190 @@ def romeo(prompt):
 
 
 
+def resume_coach():
+    """Rewrite the users resume geared towards a specific job posting and write a cover letter draft"""  
+    # Location of job posting and resume
+    job_path = f_path / "resources/job-posting/job-posting.txt"
+    resume_path = f_path / "resources/resume/resume.txt"
+    with open(job_path, 'r') as file1, open(resume_path, 'r') as file2:
+        job_posting = file1.read()
+        resume = file2.read()
+        # Print the job posting to the terminal for reference
+        print(job_posting)
+
+        completion = openai.ChatCompletion.create(
+        model=settings.model_engine,
         
+        # August now processes the job posting and resume
+        messages=[
+        {"role": "system", "content": f"You're a resume and cover letter assistant, helping {settings.username} with a job application."},
+        {"role": "assistant", "content": f"Job posting: {job_posting}{settings.username}'s resume: {resume}"},
+        {"role": "user", "content": f"Rewrite {settings.username}'s resume to optimize for the job posting"}
+        ]
+        )
+        response = completion.choices[0].message.content
+
+    #Verify the document is being rewritten
+    print(f"\n{settings.ai_username}: Resume is being rewritten!")
+    
+    # Record response in txt file
+    resume_saved(f"{settings.resume_storage}", response.strip())
+
+
+
+def cover_letter():
+    """Rewrite the users cover letter geared towards a specific job posting"""  
+    # Location of job posting and resume
+    job_path = f_path / "resources/job-posting/job-posting.txt"
+    cover_path = f_path / "resources/resume/cover-letter.txt"
+    resume_path = f_path / "resources/resume/resume.txt"
+    with open(job_path, 'r') as file1, open(resume_path, 'r') as file2, open(cover_path, 'r') as file3:
+        job_posting = file1.read()
+        resume_path = file2.read()
+        cover_let = file3.read()
+
+        # Print the job posting to the terminal for reference
+        print(job_posting)
+
+        completion = openai.ChatCompletion.create(
+        model=settings.model_engine,
+        
+        # August now processes the job posting and resume
+        messages=[
+        {"role": "system", "content": f"You're a resume and cover letter assistant, helping {settings.username} with a job application."},
+        {"role": "assistant", "content": f"Job posting: {job_posting}. {settings.username}'s resume: {settings.username}'s cover letter: {cover_let}"},
+        {"role": "user", "content": f"Based on {settings.username}'s resume and cover letter, rewrite {settings.username}'s cover letter to optimize for the job posting"}
+        ]
+        )
+        response = completion.choices[0].message.content
+
+    #Verify the document is being rewritten
+    print(f"\n{settings.ai_username}: Cover letter is being rewritten!")
+    
+    # Record response in txt file
+    resume_saved(f"{settings.cover_letter_storage}", response.strip())     
+
+
+
+
+
+
+
+
+def md_writing():
+    """Edit and rewrite markdown file for clarity"""  
+    # Location of job posting and resume
+    tech_doc = f_path / "resources/markdown/tech-doc.md"
+    with open(tech_doc, 'r') as file:
+        markdown_file = file.read()
+
+        completion = openai.ChatCompletion.create(
+        model=settings.model_engine,
+        
+        # August now processes the job posting and resume
+        messages=[
+        {"role": "system", "content": f"You're a technical writing assistant, helping {settings.username} with markdown files for GitHub repositories."},
+        {"role": "assistant", "content": f"Markdown File: {markdown_file}"},
+        {"role": "user", "content": f"Rewrite the markdown file for a Github repository for clarity and expand to help the reader understand it better. Use emojies, lists, and anything to help make it better."}
+        ]
+        )
+        response = completion.choices[0].message.content
+
+    #Verify the document is being rewritten
+    print(f"\n{settings.ai_username}: Cover letter is being rewritten!")
+    
+    # Record response in txt file
+    md_saved(f"{settings.tech_doc_storage}", response.strip())   
+
+
+def contrib_doc():
+    """Read a Github README.md file and create a contribution.md file """  
+    # Location of job posting and resume
+    readme_doc = f_path / "resources/markdown/readme-doc.md"
+    with open(readme_doc, 'r') as file:
+        readme_file = file.read()
+
+        completion = openai.ChatCompletion.create(
+        model=settings.model_engine,
+        
+        # August now processes the job posting and resume
+        messages=[
+        {"role": "system", "content": f"You're a technical writing assistant, helping {settings.username} with technical writing for GitHub repositories."},
+        {"role": "assistant", "content": f"Read Me File: {readme_file}"},
+        {"role": "user", "content": f"Take the read me file and write a brand new markdown file that give guidelines for contributing to this open source project described in the Read me file. Title the document contributions.md. This contributions.md file will be in a Github repository, so tailor the document to GitHub audience."}
+        ]
+        )
+        response = completion.choices[0].message.content
+
+    #Verify the document is being rewritten
+    print(f"\n{settings.ai_username}: Contrib doc has been written!")
+    
+    # Record response in txt file
+    md_saved(f"{settings.contrib_doc_storage}", response.strip())   
+
+
+def conduct_doc():
+    """Read a Github README.md file and Contributions file and create a code of conduct file """  
+    # Location of read me file and contributions file
+    read_me_path = f_path / "resources/markdown/readme-doc.md"
+    contrib_path = f_path / "resources/markdown/contrib-doc.md"
+    with open(read_me_path, 'r') as file1, open(contrib_path, 'r') as file2:
+        readme_file = file1.read()
+        contrib_file = file2.read()
+
+        completion = openai.ChatCompletion.create(
+        model=settings.model_engine,
+        
+        # August now processes the job posting and resume
+        messages=[
+        {"role": "system", "content": f"You're a technical writing assistant, helping {settings.username} with technical writing for a GitHub repository."},
+        {"role": "assistant", "content": f"Read Me File: {readme_file} and Contributions File: {contrib_file}"},
+        {"role": "user", "content": f"Take the read me file and contributions files and write a brand new markdown file that gives code of conduct guidelines to this open source project. Title the document codeofconduct.md. This file will be in a Github repository, so tailor the document to GitHub audience."}
+        ]
+        )
+        response = completion.choices[0].message.content
+
+    #Verify the document is being rewritten
+    print(f"\n{settings.ai_username}: Code of conduct doc has been written!")
+    
+    # Record response in txt file
+    md_saved(f"{settings.conduct_doc_storage}", response.strip())   
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+            
 
 
 

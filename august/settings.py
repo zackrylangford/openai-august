@@ -16,13 +16,15 @@ background = os.environ["USER_BACKGROUND"]
 #Specify the file path for your resources. Set the file_path to the program directory (just above the august directory)
 f_path = Path(os.environ["PATH_TO_FILES"])
 
-
-
 # Output Storage - set these to custom locations where you would like to store your generated text. 
 chat_log_storage = f_path / 'documents/chat-logs.txt'
 blog_post_storage = f_path / 'documents/blogpost.txt'
 social_storage = f_path / 'documents/socialmedia.txt'
-
+resume_storage = f_path / 'documents/resume_coach/resume-rewrite.txt'
+cover_letter_storage = f_path / 'documents/resume-coach/cover-letter-rewrite.txt'
+tech_doc_storage = f_path / 'documents/tech-writing/tech-doc-rewrite.md'
+contrib_doc_storage = f_path / 'documents/tech-writing/contributions-doc.md'
+conduct_doc_storage = f_path / 'documents/tech-writing/code-of-conduct-doc.md'
 
 # OpenAI settings
 # These are the settings that specify the model of openai you are using as well as other settings. 
@@ -44,22 +46,6 @@ blog_topics = "The user blogs about the following topics: Life, being a dad, Bra
 # Specify the openai model
 model_engine = "gpt-3.5-turbo"
 
-
-# Settings for older openai models
-
-#Specify the maximum output of the ai. Max request (prompt+output) is 4000 tokens.
-max_tokens=1024
-
-#Specify the number of outputs the ai will return
-n=1
-
-#Specify any special stopping circumstances
-stop=None
-
-# From .1 to 1. Lowering temperature means it will take fewer risks, 
-# and completions will be more accurate and deterministic. 
-# Increasing temperature will result in more diverse completions.
-temperature=0.8
 
 
 

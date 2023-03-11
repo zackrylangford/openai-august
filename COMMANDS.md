@@ -4,7 +4,19 @@
 ```
 --quit
 ```
-
+#### To rewrite your resume based on a job description
+1. Save your current resume to a .txt file called resume.tx in the /resources/resume/ directory
+2. Copy and paste the job description to a .txt file called job-posting.txt in the /resources/job-posting/ directory.
+```
+--resume
+```
+#### To write a cover letter based on a job description and a given resume
+1. Save your current resume to a .txt file called resume.tx in the /resources/resume/ directory
+2. Copy and paste the job description to a .txt file called job-posting.txt in the /resources/job-posting/ directory.
+3. Save a generic cover letter for August to use a sample to a file called cover-letter.txt in the /resources/resume/ directory.
+```
+--cover
+```
 #### To utilize the blog coach 
 ```
 --coach
@@ -22,3 +34,4 @@
 --romeo
 ```
 * This feature will take a random sample from Romeo and Juliet and feed it to August. August will then translate it into modern English and substitute the original characters from Romeo and Juliet with characters from the TV show "The Office" 
+

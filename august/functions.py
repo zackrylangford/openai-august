@@ -72,6 +72,19 @@ def greeting_saved(file_name, response):
 	file_in.write(ai_output)
 	file_in.close()
 
+# Save a rewritten resume
+def resume_saved(file_name, resume):
+	file_in = open(file_name, 'w')
+	ai_output = (f"{resume}")
+	file_in.write(ai_output)
+	file_in.close()
+
+# Save a rewritten markdown document
+def md_saved(file_name, document):
+	file_in = open(file_name, 'w')
+	ai_output = (f"{document}")
+	file_in.write(ai_output)
+	file_in.close()
 
 
 

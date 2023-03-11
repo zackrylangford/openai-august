@@ -7,6 +7,8 @@ from functions import *
 from pathlib import Path
 
 
+
+
 #Import API Key from settings
 openai.api_key = settings.api_key
 
@@ -38,7 +40,27 @@ while prompt != '--quit':
         prompt = input(f"\n{settings.username}: ")
 
     elif prompt == '--coach':
-        blog_coach(prompt)
+        blog_coach()
+        prompt = input(f"\n{settings.username}: ")
+
+    elif prompt == '--resume':
+        resume_coach()
+        prompt = input(f"\n{settings.username}: ")
+    
+    elif prompt == '--cover':
+        cover_letter()
+        prompt = input(f"\n{settings.username}: ")
+
+    elif prompt == '--markdown':
+        md_writing()
+        prompt = input(f"\n{settings.username}: ")
+
+    elif prompt == '--contrib':
+        contrib_doc()
+        prompt = input(f"\n{settings.username}: ")
+
+    elif prompt == '--conduct':
+        conduct_doc()
         prompt = input(f"\n{settings.username}: ")
         
     else:
