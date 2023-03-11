@@ -37,7 +37,7 @@ Before contributing new features or enhancements, please make sure to first disc
 
 ## Code of Conduct
 
-To ensure that August-GPT continues to be a welcoming, safe, and inclusive space for everyone, we have adopted a Code of Conduct. Please refer to the [CODE_OF_CONDUCT.md](https://github.com/zackrylangford/august-gpt/blob/main/CODE_OF_CONDUCT.md) file for more information.
+To ensure that August-GPT continues to be a welcoming, safe, and inclusive space for everyone, we have adopted a Code of Conduct. Please refer to the [CODE_OF_CONDUCT.md](https://github.com/zackrylangford/openai-august-CODE_OF_CONDUCT.md) file for more information.
 
 ## Attribution
 
@@ -45,6 +45,6 @@ Please ensure that you provide attribution to any external sources you use to co
 
 ## Conclusion
 
-August-GPT is an open source project and we appreciate all contributions, big or small. If you have any questions, please consult the [README.md](https://github.com/zackrylangford/august-gpt/blob/main/README.md) file or reach out to us via email at [zack@cloudzack.com](mailto:zack@cloudzack.com).
+August-GPT is an open source project and we appreciate all contributions, big or small. If you have any questions, please consult the [README.md](https://github.com/zackrylangford/openai-august/README.md) file or reach out to us via email at [zack@cloudzack.com](mailto:zack@cloudzack.com).
 
 Happy contributing!
