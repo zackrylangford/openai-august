@@ -94,3 +94,11 @@ def code_blog_saved(file_name, document):
 	file_in.close()
 
 
+
+# Save a code rewrite
+def code_saved(file_name, document):
+	file_in = open(file_name, 'w')
+	ai_output = (f"{document}")
+	file_in.write(ai_output)
+	file_in.close()
+

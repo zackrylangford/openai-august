@@ -158,7 +158,7 @@ def blog_coach():
                     messages=[
                         {"role": "system", "content": f"{settings.blog_coach}"},
                         {"role": "assistant", "content": f"Blog post that we just wrote:{blog_saved}.{settings.username}'s background: {settings.background}"},
-                        {"role": "user", "content": f"Generate a string of four keywords seperated by commas on one line that are good images for the following blog post: {blog_saved}"},
+                        {"role": "user", "content": f"Select one concrete keyword that could be a good representative image for the following blog post: {blog_saved}"},
                     ]
                     )
                     key_words = completion.choices[0].message.content
@@ -166,8 +166,9 @@ def blog_coach():
                     add_keywords(f"{settings.blog_post_storage}", key_words.strip())
     
                     style_type = ['abstract', 'photo','surreal','impressionist','cubism', 'art deco']
+                    enhancement = ['glowing', 'vibrant','flashy','agressive', 'realistic', 'calm', 'black and white', 'pencil', 'chalk', 'acrylic']
                     response = openai.Image.create(
-                    prompt=(f"{random.choice(style_type)}, {key_words}"),
+                    prompt=(f"{random.choice(style_type)}, {key_words}, {random.choice(enhancement)}"),
                     n=1,
                     size="512x512"
                     ) 
@@ -414,6 +415,34 @@ def code_blog():
 
 
 
+def code_help():
+    """Take a chunk of code and answer questions from the user defined prompt to help with code implementation""" 
+    # Location of code 
+    code_help_path = f_path / "resources/code/code-help-draft.txt"
+    
+    # Ask for the user prompt
+    print(f"\n{settings.ai_username}: How can I help you with your code today?")
+    user_question = input(f"\n{settings.username}: ")
+    with open(code_help_path, 'r') as file:
+        code_file = file.read()
+
+        completion = openai.ChatCompletion.create(
+        model=settings.model_engine,
+        
+        # August now processes the job posting and resume
+        messages=[
+        {"role": "system", "content": f"You're a code writing assistant, helping {settings.username} with writing code for Django Python web applications"},
+        {"role": "assistant", "content": f"Help the user implement the following code into a Django Web application based on the users questions: {code_file}"},
+        {"role": "user", "content": f"{user_question}"},
+        ]
+        )
+        response = completion.choices[0].message.content
+
+    #Verify the document is being rewritten
+    print(f"\n{settings.ai_username}: Code is ready!")
+    
+    # Record response in txt file
+    code_saved(f"{settings.code_storage}", response.strip())
 
 
 

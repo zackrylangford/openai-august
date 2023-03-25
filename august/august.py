@@ -66,6 +66,10 @@ while prompt != '--quit':
     elif prompt == '--codeblog':
         code_blog()
         prompt = input(f"\n{settings.username}: ")
+
+    elif prompt == '--codehelp':
+        code_help()
+        prompt = input(f"\n{settings.username}: ")
         
     else:
         open_chat(prompt)
